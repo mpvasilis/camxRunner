@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="PublishConfigData" serverName="icarus-dss-models">
+    <serverData>
+      <paths name="Cluster">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/opt/" local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+      <paths name="icarus-dss-models">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/home/vbalafas/camx/" local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+    </serverData>
+  </component>
+</project>

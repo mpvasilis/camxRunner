@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="camxrunner" default="all">
+  
+  
+  <property file="camxrunner.properties"/>
+  <!-- Uncomment the following property if no tests compilation is needed -->
+  <!-- 
+  <property name="skip.tests" value="true"/>
+   -->
+  
+  <!-- Compiler options -->
+  
+  <property name="compiler.debug" value="on"/>
+  <property name="compiler.generate.no.warnings" value="off"/>
+  <property name="compiler.args" value=""/>
+  <property name="compiler.max.memory" value="700m"/>
+  <patternset id="ignored.files">
+    <exclude name="**/*.hprof/**"/>
+    <exclude name="**/*.pyc/**"/>
+    <exclude name="**/*.pyo/**"/>
+    <exclude name="**/*.rbc/**"/>
+    <exclude name="**/*.yarb/**"/>
+    <exclude name="**/*~/**"/>
+    <exclude name="**/.DS_Store/**"/>
+    <exclude name="**/.git/**"/>
+    <exclude name="**/.hg/**"/>
+    <exclude name="**/.svn/**"/>
+    <exclude name="**/CVS/**"/>
+    <exclude name="**/__pycache__/**"/>
+    <exclude name="**/_svn/**"/>
+    <exclude name="**/vssver.scc/**"/>
+    <exclude name="**/vssver2.scc/**"/>
+  </patternset>
+  <patternset id="library.patterns">
+    <include name="*.egg"/>
+    <include name="*.jar"/>
+    <include name="*.ear"/>
+    <include name="*.klib"/>
+    <include name="*.swc"/>
+    <include name="*.war"/>
+    <include name="*.zip"/>
+    <include name="*.ane"/>
+  </patternset>
+  <patternset id="compiler.resources">
+    <exclude name="**/?*.java"/>
+    <exclude name="**/?*.form"/>
+    <exclude name="**/?*.class"/>
+    <exclude name="**/?*.groovy"/>
+    <exclude name="**/?*.scala"/>
+    <exclude name="**/?*.flex"/>
+    <exclude name="**/?*.kt"/>
+    <exclude name="**/?*.clj"/>
+  </patternset>
+  
+  <!-- JDK definitions -->
+  
+  <property name="jdk.bin.1.8" value="${jdk.home.1.8}/bin"/>
+  <path id="jdk.classpath.1.8">
+    <fileset dir="${jdk.home.1.8}">
+      <include name="jre/lib/charsets.jar"/>
+      <include name="jre/lib/deploy.jar"/>
+      <include name="jre/lib/ext/access-bridge-64.jar"/>
+      <include name="jre/lib/ext/cldrdata.jar"/>
+      <include name="jre/lib/ext/dnsns.jar"/>
+      <include name="jre/lib/ext/jaccess.jar"/>
+      <include name="jre/lib/ext/jfxrt.jar"/>
+      <include name="jre/lib/ext/localedata.jar"/>
+      <include name="jre/lib/ext/nashorn.jar"/>
+      <include name="jre/lib/ext/sunec.jar"/>
+      <include name="jre/lib/ext/sunjce_provider.jar"/>
+      <include name="jre/lib/ext/sunmscapi.jar"/>
+      <include name="jre/lib/ext/sunpkcs11.jar"/>
+      <include name="jre/lib/ext/zipfs.jar"/>
+      <include name="jre/lib/javaws.jar"/>
+      <include name="jre/lib/jce.jar"/>
+      <include name="jre/lib/jfr.jar"/>
+      <include name="jre/lib/jfxswt.jar"/>
+      <include name="jre/lib/jsse.jar"/>
+      <include name="jre/lib/management-agent.jar"/>
+      <include name="jre/lib/plugin.jar"/>
+      <include name="jre/lib/resources.jar"/>
+      <include name="jre/lib/rt.jar"/>
+    </fileset>
+  </path>
+  
+  <property name="project.jdk.home" value="${jdk.home.1.8}"/>
+  <property name="project.jdk.bin" value="${jdk.bin.1.8}"/>
+  <property name="project.jdk.classpath" value="jdk.classpath.1.8"/>
+  
+  
+  <!-- Project Libraries -->
+  
+  <path id="library.com.google.code.gson:gson:2.8.6.classpath">
+    <pathelement location="${path.variable.maven_repository}/com/google/code/gson/gson/2.8.6/gson-2.8.6.jar"/>
+  </path>
+  
+  <path id="library.com.konghq:unirest-java:3.1.04.classpath">
+    <pathelement location="${path.variable.maven_repository}/com/google/code/gson/gson/2.8.5/gson-2.8.5.jar"/>
+    <pathelement location="${path.variable.maven_repository}/com/konghq/unirest-java/3.1.04/unirest-java-3.1.04.jar"/>
+    <pathelement location="${path.variable.maven_repository}/commons-codec/commons-codec/1.11/commons-codec-1.11.jar"/>
+    <pathelement location="${path.variable.maven_repository}/commons-logging/commons-logging/1.2/commons-logging-1.2.jar"/>
+    <pathelement location="${path.variable.maven_repository}/org/apache/httpcomponents/httpasyncclient/4.1.4/httpasyncclient-4.1.4.jar"/>
+    <pathelement location="${path.variable.maven_repository}/org/apache/httpcomponents/httpclient/4.5.9/httpclient-4.5.9.jar"/>
+    <pathelement location="${path.variable.maven_repository}/org/apache/httpcomponents/httpcore-nio/4.4.11/httpcore-nio-4.4.11.jar"/>
+    <pathelement location="${path.variable.maven_repository}/org/apache/httpcomponents/httpcore/4.4.11/httpcore-4.4.11.jar"/>
+    <pathelement location="${path.variable.maven_repository}/org/apache/httpcomponents/httpmime/4.5.9/httpmime-4.5.9.jar"/>
+  </path>
+  
+  <path id="library.netcdfall-4.6.classpath">
+    <pathelement location="${basedir}/../../Downloads/netcdfAll-4.6.jar"/>
+  </path>
+  
+  <path id="library.simple_logging_facade_for_java:1.7.2.classpath">
+    <pathelement location="${path.variable.maven_repository}/org/slf4j/slf4j-api/1.7.2/slf4j-api-1.7.2.jar"/>
+    <pathelement location="${path.variable.maven_repository}/org/slf4j/slf4j-simple/1.7.2/slf4j-simple-1.7.2.jar"/>
+  </path>
+  
+  
+  <!-- Application Server Libraries -->
+  <!-- Register Custom Compiler Taskdefs -->
+  <property name="javac2.home" value="${idea.home}/lib"/>
+  <path id="javac2.classpath">
+    <fileset dir="${javac2.home}">
+      <include name="javac2.jar"/>
+      <include name="jdom.jar"/>
+      <include name="asm-all*.jar"/>
+      <include name="forms-*.jar"/>
+    </fileset>
+  </path>
+  <target name="register.custom.compilers">
+    <taskdef name="javac2" classname="com.intellij.ant.Javac2" classpathref="javac2.classpath"/>
+    <taskdef name="instrumentIdeaExtensions" classname="com.intellij.ant.InstrumentIdeaExtensions" classpathref="javac2.classpath"/>
+  </target>
+  
+  <!-- Modules -->
+  
+  
+  <!-- Module camxRunner -->
+  
+  <dirname property="module.camxrunner.basedir" file="${ant.file}"/>
+  
+  
+  <property name="module.jdk.home.camxrunner" value="${project.jdk.home}"/>
+  <property name="module.jdk.bin.camxrunner" value="${project.jdk.bin}"/>
+  <property name="module.jdk.classpath.camxrunner" value="${project.jdk.classpath}"/>
+  
+  <property name="compiler.args.camxrunner" value="-encoding UTF-8 -source 8 -target 8 ${compiler.args}"/>
+  
+  <property name="camxrunner.output.dir" value="${module.camxrunner.basedir}/out/production/camxRunner"/>
+  <property name="camxrunner.testoutput.dir" value="${module.camxrunner.basedir}/out/test/camxRunner"/>
+  
+  <path id="camxrunner.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="camxrunner.module.production.classpath">
+    <path refid="${module.jdk.classpath.camxrunner}"/>
+    <pathelement location="${path.variable.maven_repository}/junit/junit/4.12/junit-4.12.jar"/>
+    <pathelement location="${path.variable.maven_repository}/org/hamcrest/hamcrest-core/1.3/hamcrest-core-1.3.jar"/>
+    <path refid="library.netcdfall-4.6.classpath"/>
+    <path refid="library.com.konghq:unirest-java:3.1.04.classpath"/>
+    <path refid="library.simple_logging_facade_for_java:1.7.2.classpath"/>
+    <path refid="library.com.google.code.gson:gson:2.8.6.classpath"/>
+  </path>
+  
+  <path id="camxrunner.runtime.production.module.classpath">
+    <pathelement location="${camxrunner.output.dir}"/>
+    <pathelement location="${path.variable.maven_repository}/junit/junit/4.12/junit-4.12.jar"/>
+    <pathelement location="${path.variable.maven_repository}/org/hamcrest/hamcrest-core/1.3/hamcrest-core-1.3.jar"/>
+    <path refid="library.netcdfall-4.6.classpath"/>
+    <path refid="library.com.konghq:unirest-java:3.1.04.classpath"/>
+    <path refid="library.simple_logging_facade_for_java:1.7.2.classpath"/>
+    <path refid="library.com.google.code.gson:gson:2.8.6.classpath"/>
+  </path>
+  
+  <path id="camxrunner.module.classpath">
+    <path refid="${module.jdk.classpath.camxrunner}"/>
+    <pathelement location="${camxrunner.output.dir}"/>
+    <pathelement location="${path.variable.maven_repository}/junit/junit/4.12/junit-4.12.jar"/>
+    <pathelement location="${path.variable.maven_repository}/org/hamcrest/hamcrest-core/1.3/hamcrest-core-1.3.jar"/>
+    <path refid="library.netcdfall-4.6.classpath"/>
+    <path refid="library.com.konghq:unirest-java:3.1.04.classpath"/>
+    <path refid="library.simple_logging_facade_for_java:1.7.2.classpath"/>
+    <path refid="library.com.google.code.gson:gson:2.8.6.classpath"/>
+  </path>
+  
+  <path id="camxrunner.runtime.module.classpath">
+    <pathelement location="${camxrunner.testoutput.dir}"/>
+    <pathelement location="${camxrunner.output.dir}"/>
+    <pathelement location="${path.variable.maven_repository}/junit/junit/4.12/junit-4.12.jar"/>
+    <pathelement location="${path.variable.maven_repository}/org/hamcrest/hamcrest-core/1.3/hamcrest-core-1.3.jar"/>
+    <path refid="library.netcdfall-4.6.classpath"/>
+    <path refid="library.com.konghq:unirest-java:3.1.04.classpath"/>
+    <path refid="library.simple_logging_facade_for_java:1.7.2.classpath"/>
+    <path refid="library.com.google.code.gson:gson:2.8.6.classpath"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.camxrunner">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.camxrunner">
+    <patternset refid="excluded.from.module.camxrunner"/>
+  </patternset>
+  
+  <path id="camxrunner.module.sourcepath">
+    <dirset dir="${module.camxrunner.basedir}">
+      <include name="src"/>
+    </dirset>
+  </path>
+  
+  
+  <target name="compile.module.camxrunner" depends="compile.module.camxrunner.production,compile.module.camxrunner.tests" description="Compile module camxRunner"/>
+  
+  <target name="compile.module.camxrunner.production" depends="register.custom.compilers" description="Compile module camxRunner; production classes">
+    <mkdir dir="${camxrunner.output.dir}"/>
+    <javac2 destdir="${camxrunner.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.camxrunner}/javac">
+      <compilerarg line="${compiler.args.camxrunner}"/>
+      <bootclasspath refid="camxrunner.module.bootclasspath"/>
+      <classpath refid="camxrunner.module.production.classpath"/>
+      <src refid="camxrunner.module.sourcepath"/>
+      <patternset refid="excluded.from.compilation.camxrunner"/>
+    </javac2>
+    
+    <copy todir="${camxrunner.output.dir}">
+      <fileset dir="${module.camxrunner.basedir}/src">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="compile.module.camxrunner.tests" depends="register.custom.compilers,compile.module.camxrunner.production" description="compile module camxRunner; test classes" unless="skip.tests"/>
+  
+  <target name="clean.module.camxrunner" description="cleanup module">
+    <delete dir="${camxrunner.output.dir}"/>
+    <delete dir="${camxrunner.testoutput.dir}"/>
+  </target>
+  
+  <target name="init" description="Build initialization">
+    <!-- Perform any build initialization in this target -->
+  </target>
+  
+  <target name="clean" depends="clean.module.camxrunner" description="cleanup all"/>
+  
+  <target name="build.modules" depends="init, clean, compile.module.camxrunner" description="build all modules"/>
+  
+  <target name="init.artifacts">
+    <property name="artifacts.temp.dir" value="${basedir}/__artifacts_temp"/>
+    <property name="artifact.output.camxrunner:jar" value="${basedir}/out/artifacts/camxRunner_jar"/>
+    <mkdir dir="${artifacts.temp.dir}"/>
+    <property name="temp.jar.path.camxRunner.jar" value="${artifacts.temp.dir}/camxRunner.jar"/>
+  </target>
+  
+  <target name="artifact.camxrunner:jar" depends="init.artifacts, compile.module.camxrunner" description="Build &#39;camxRunner:jar&#39; artifact">
+    <property name="artifact.temp.output.camxrunner:jar" value="${artifacts.temp.dir}/camxRunner_jar"/>
+    <mkdir dir="${artifact.temp.output.camxrunner:jar}"/>
+    <jar destfile="${temp.jar.path.camxRunner.jar}" duplicate="preserve" filesetmanifest="mergewithoutmain">
+      <zipfileset dir="${camxrunner.output.dir}"/>
+      <zipfileset src="${path.variable.maven_repository}/org/slf4j/slf4j-simple/1.7.2/slf4j-simple-1.7.2.jar"/>
+      <zipfileset src="${path.variable.maven_repository}/org/slf4j/slf4j-api/1.7.2/slf4j-api-1.7.2.jar"/>
+      <zipfileset src="${path.variable.maven_repository}/com/konghq/unirest-java/3.1.04/unirest-java-3.1.04.jar"/>
+      <zipfileset src="${path.variable.maven_repository}/org/apache/httpcomponents/httpclient/4.5.9/httpclient-4.5.9.jar"/>
+      <zipfileset src="${path.variable.maven_repository}/org/apache/httpcomponents/httpcore/4.4.11/httpcore-4.4.11.jar"/>
+      <zipfileset src="${path.variable.maven_repository}/commons-logging/commons-logging/1.2/commons-logging-1.2.jar"/>
+      <zipfileset src="${path.variable.maven_repository}/commons-codec/commons-codec/1.11/commons-codec-1.11.jar"/>
+      <zipfileset src="${path.variable.maven_repository}/org/apache/httpcomponents/httpmime/4.5.9/httpmime-4.5.9.jar"/>
+      <zipfileset src="${path.variable.maven_repository}/org/apache/httpcomponents/httpcore-nio/4.4.11/httpcore-nio-4.4.11.jar"/>
+      <zipfileset src="${path.variable.maven_repository}/org/apache/httpcomponents/httpasyncclient/4.1.4/httpasyncclient-4.1.4.jar"/>
+      <zipfileset src="${path.variable.maven_repository}/com/google/code/gson/gson/2.8.5/gson-2.8.5.jar"/>
+      <zipfileset src="${basedir}/../../Downloads/netcdfAll-4.6.jar"/>
+      <zipfileset src="${path.variable.maven_repository}/com/google/code/gson/gson/2.8.6/gson-2.8.6.jar"/>
+      <zipfileset src="${path.variable.maven_repository}/junit/junit/4.12/junit-4.12.jar"/>
+      <zipfileset src="${path.variable.maven_repository}/org/hamcrest/hamcrest-core/1.3/hamcrest-core-1.3.jar"/>
+    </jar>
+    <copy file="${temp.jar.path.camxRunner.jar}" tofile="${artifact.temp.output.camxrunner:jar}/camxRunner.jar"/>
+  </target>
+  
+  <target name="build.all.artifacts" depends="artifact.camxrunner:jar" description="Build all artifacts">
+    <mkdir dir="${artifact.output.camxrunner:jar}"/>
+    <copy todir="${artifact.output.camxrunner:jar}">
+      <fileset dir="${artifact.temp.output.camxrunner:jar}"/>
+    </copy>
+    
+    <!-- Delete temporary files -->
+    <delete dir="${artifacts.temp.dir}"/>
+  </target>
+  
+  <target name="all" depends="build.modules, build.all.artifacts" description="build all"/>
+</project>

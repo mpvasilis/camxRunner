@@ -1,0 +1,40 @@
+#!/usr/bin/env bash
+
+set -eo pipefail
+
+################
+# Dependencies #
+################
+
+DEBIAN_FRONTEND=noninteractive \
+apt-get install --assume-yes build-essential && \
+apt-get install --assume-yes curl && \
+apt-get install --assume-yes csh && \
+apt-get install --assume-yes gfortran && \
+apt-get install --assume-yes libcurl4-gnutls-dev && \
+apt-get install --assume-yes libhdf5-dev && \
+apt-get install --assume-yes libnetcdf-dev && \
+apt-get install --assume-yes wget
+
+##########################################################################
+# I/O API: Models-3/EDSS Input/Output Applications Programming Interface #
+##########################################################################
+
+mkdir -p /opt/model/ioapi
+cd /opt/model
+echo "Installing I/O API into '/opt/model/ioapi'"
+
+curl -fsSLO 'https://www.cmascenter.org/ioapi/download/ioapi-3.1.tar.gz'
+gunzip ioapi-3.1.tar.gz
+tar -xf ioapi-3.1.tar -C ioapi
+rm ioapi-3.1.tar
+
+cd /opt/model/ioapi
+export BIN="Linux2_x86_64"
+patch -p1 < /etc/opt/install-model/ioapi.diff
+make dirs
+ln -s "/usr/lib/libnetcdf.a" "$BIN/libnetcdf.a"
+make configure
+sed -i 's/-lnetcdf /-lnetcdf -lhdf5_hl -lhdf5 -lz -lm -lcurl /' m3tools/Makefile
+make
+

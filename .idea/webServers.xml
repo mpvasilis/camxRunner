@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="770e5f9b-7806-48f2-9618-1beb8ee5f210" name="icarus-dss-models" url="http://icarus-dss-models.upcom.eu">
+        <fileTransfer host="icarus-dss-models.upcom.eu" port="13930" rootFolder="/home/vbalafas/camx/" accessType="SFTP">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+          <option name="port" value="13930" />
+        </fileTransfer>
+      </webServer>
+      <webServer id="2753abb4-7ffd-46b3-b82b-8bc706d2d757" name="Cluster" url="http://83.212.17.210">
+        <fileTransfer host="83.212.17.210" port="22" rootFolder="/home/vmpalafas/camxRunner" accessType="SFTP">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+          <option name="port" value="22" />
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>

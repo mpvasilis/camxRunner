@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+
+set -eo pipefail
+
+##########################################################################
+# CAMX - The Composites and Advanced Materials Expo  Installtion #
+##########################################################################
+
+mkdir -p /opt/bin/camx
+cd /opt/bin/camx
+echo "Installing CAMx into '/opt/bin/camx'"
+
+make clean
+
+make MPI=mpich
+
+##########################################################################
+# ICARUS MODELS CONTAINER READY! #
+##########################################################################
