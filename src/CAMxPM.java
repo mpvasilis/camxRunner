@@ -89,7 +89,7 @@ public class CAMxPM {
                 }
             }
             if (variable.equals("PM10")) {
-                final String[] varaiblesPM2510 = {"CCRS ", "CPRM"};
+                final String[] varaiblesPM2510 = {"CCRS", "CPRM"};
                 for (String PM2510var : varaiblesPM2510) {
 
                     for (int time = 0; time < max_time; time++) {
