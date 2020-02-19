@@ -221,6 +221,13 @@ public class Main {
             for (File file : listOfFiles) {
                 if (file.isFile() && file.getName().contains(".avrg.grd01.nc")) {
                     getDATA(file.getAbsolutePath(), apiEndpoint, Integer.parseInt(runID), wrfoutputfile);
+                    File camxfile = new File(file.getAbsolutePath());
+                    File destination = new File("/mnt/data/"+runID+"/"+file.getName());
+                    try {
+                        EmissInvCopy.copyFile(camxfile,destination);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
 
