@@ -126,7 +126,7 @@ public class CAMxPM {
                         double lon = longitudeMa.getDouble(new int[]{i, j});
                         double lat = latitudeMa.getDouble(new int[]{i, j});
                         double value = 0;
-                        if (variable.equals("PM2.5")) {
+                        if (variable.equals("PM25")) {
                             value = PM25[time][0][i][j];
                         } else {
                             value = PM10[time][0][i][j];

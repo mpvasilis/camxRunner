@@ -24,7 +24,7 @@ public class TUV extends CAMxSIMULATION {
         int NROWS = wrf.getGrid_size_y();
 
         try (PrintWriter out = new PrintWriter(jobfile_dir+jobfile)) {
-            String JOBFILE = "set MECH    =  CB6                  # [CB05|CB6|SAPRC99|SAPRC07|SAPRC07I]\n" +
+            String JOBFILE = "set MECH    =  CB05                  # [CB05|CB6|SAPRC99|SAPRC07|SAPRC07I]\n" +
                     "set SCHEME  =  2                    # 1 = pseudo spherical 2-stream\n" +
                     "                                    # 2 = discrete ordinates (recommended)\n" +
                     "set yymmdd  = "+wrf.getSIMULATION_END_DATE_format2()+"                # YYMMDD format\n" +

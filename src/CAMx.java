@@ -116,7 +116,7 @@ public class CAMx extends CAMxSIMULATION {
                     " NetCDF_Use_Compression   = .false.,\n" +
                     " Output_Species_Names(1)   = 'ALL',\n" +
                     "!--- Input files ---\n" +
-                    " Chemistry_Parameters = '$INPUT/CAMx6.5.chemparam.CB6r4_CF_SOAP_ISORROPIA',\n" + //ok
+                    " Chemistry_Parameters = '$INPUT/CAMx6.5.chemparam.CB05_CF_SOAP_ISORROPIA',\n" + //ok
                     " Photolyis_Rates      = '$INPUT/tuv.do',\n" + //ok
                     " Ozone_Column         = '$INPUT/o3."+wrf.getSIMULATION_START_DATE_format2().substring(0, wrf.getSIMULATION_START_DATE_format2().length() - 2)+"${CAL}.txt',\n" +
                     " Initial_Conditions   = '$INPUT/ic.cb6r2."+wrf.getSIMULATION_START_DATE_format2()+".hr0.bin',\n" +

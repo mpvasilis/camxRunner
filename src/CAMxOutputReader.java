@@ -104,7 +104,6 @@ public class CAMxOutputReader  {
     ** Converts from ppmv to μg/m3
     */
     public double convert_emiss(String pollutant, double value, double temp){
-       if(!pollutant.equals("PM2.5") || !pollutant.equals("PM10") ){
            double  MolecularWeight = 0.0;
            switch(pollutant)
            {
@@ -147,10 +146,7 @@ public class CAMxOutputReader  {
            double result = value * (MolecularWeight / (0.082057338 * temp));
            result = result * 1000;
            return result;
-       }
-       else{
-           return value;
-        }
+
     }
 
 

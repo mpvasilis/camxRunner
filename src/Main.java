@@ -3,6 +3,8 @@ import com.google.gson.GsonBuilder;
 import io.sentry.Sentry;
 import io.sentry.SentryClient;
 import io.sentry.SentryClientFactory;
+import io.sentry.event.Event;
+import io.sentry.event.EventBuilder;
 import kong.unirest.HttpResponse;
 import kong.unirest.Unirest;
 
@@ -222,7 +224,7 @@ public class Main {
                 if (file.isFile() && file.getName().contains(".avrg.grd01.nc")) {
                     getDATA(file.getAbsolutePath(), apiEndpoint, Integer.parseInt(runID), wrfoutputfile);
                     File camxfile = new File(file.getAbsolutePath());
-                    File destination = new File("/mnt/data/"+runID+"/"+file.getName());
+                    File destination = new File("/mnt/data/"+runID+"/"+file.getName().replace("thess",RUNCITY));
                     try {
                         EmissInvCopy.copyFile(camxfile,destination);
                     } catch (IOException e) {
@@ -293,7 +295,14 @@ public class Main {
                     }
                     System.out.println("Post size = " + (bytes.length / 1048576) + "MB");
                     int statuscode = jsonPost(json, apiEndpoint);
-                    System.out.println(statuscode);
+                    System.err.println(statuscode);
+                    if(statuscode!=200){
+                        EventBuilder eventBuilder = new EventBuilder()
+                                .withMessage("DSS status code "+statuscode+" while posting "+ pollutant+ " at run ID "+ runID+".")
+                                .withLevel(Event.Level.ERROR)
+                                .withLogger(Main.class.getName());
+                        Sentry.capture(eventBuilder);
+                    }
                 } else {
                     System.out.println("Aborted posting " + pollutant);
                 }
@@ -306,9 +315,10 @@ public class Main {
         // PM2.5 POST
 
         try {
+            String pollutant = "PM25";
             List<CAMxOutputModel> PM25 = null;
             CAMxPM camxpm = new CAMxPM(camOutputFile);
-            PM25 = camxpm.readCAMxOutput(runID, "PM2.5");
+            PM25 = camxpm.readCAMxOutput(runID, "PM25");
             if (PM25.size() > 0) {
                 Gson gson = new Gson();
                 GsonBuilder builder = new GsonBuilder();
@@ -322,7 +332,14 @@ public class Main {
                 }
                 System.out.println("Post size = " + (bytes.length / 1048576) + "MB");
                 int statuscode = jsonPost(json, apiEndpoint);
-                System.out.println(statuscode);
+                System.err.println(statuscode);
+                if(statuscode!=200){
+                    EventBuilder eventBuilder = new EventBuilder()
+                            .withMessage("DSS status code "+statuscode+" while posting "+ pollutant+ " at run ID "+ runID+".")
+                            .withLevel(Event.Level.ERROR)
+                            .withLogger(Main.class.getName());
+                    Sentry.capture(eventBuilder);
+                }
             } else {
                 System.out.println("Aborted posting PM2.5 ");
             }
@@ -334,6 +351,7 @@ public class Main {
         // PM10 POST
 
         try {
+            String pollutant = "PM10";
             List<CAMxOutputModel> PM10 = null;
             CAMxPM camxpm = new CAMxPM(camOutputFile);
             PM10 = camxpm.readCAMxOutput(runID, "PM10");
@@ -350,7 +368,14 @@ public class Main {
                 }
                 System.out.println("Post size = " + (bytes.length / 1048576) + "MB");
                 int statuscode = jsonPost(json, apiEndpoint);
-                System.out.println(statuscode);
+                System.err.println(statuscode);
+                if(statuscode!=200){
+                    EventBuilder eventBuilder = new EventBuilder()
+                            .withMessage("DSS status code "+statuscode+" while posting "+ pollutant+ " at run ID "+ runID+".")
+                            .withLevel(Event.Level.ERROR)
+                            .withLogger(Main.class.getName());
+                    Sentry.capture(eventBuilder);
+                }
             } else {
                 System.out.println("Aborted posting PM10");
             }
