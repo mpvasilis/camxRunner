@@ -45,6 +45,7 @@ public class MGN2MECH extends CAMxSIMULATION {
                     "setenv PROG   mgn2mech.wmap\n" +
                     "setenv EXEDIR $MGNEXE\n" +
                     "setenv EXE    /opt/bin/camx_preprocessors/MEGAN/MEGANv2.10/src/MGN2MECH/$PROG\n" +
+                    "setenv GRIDDESC \"/opt/bin/camx_preprocessors/MCIP/output/GRIDDESC\"\n" +
                     "# Input map data directory\n" +
                     "setenv INPDIR $MGNINP/trial\n" +
                     "# Intermediate file directory\n" +

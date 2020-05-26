@@ -119,7 +119,7 @@ public class CAMxPM {
             }
 
             for (int time = 0; time < max_time; time++) {
-                calendar.add(Calendar.HOUR_OF_DAY, time);
+                calendar.add(Calendar.HOUR_OF_DAY, 1);
                 Date camx_this_record_date = calendar.getTime();
                 for (int i = 0; i < grid_size_x; i++) {
                     for (int j = 0; j < grid_size_y; j++) {

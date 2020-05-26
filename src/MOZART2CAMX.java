@@ -30,7 +30,7 @@ public class MOZART2CAMX extends CAMxSIMULATION {
         String YEAR = wrf.getYear();
         String JDBEGs =  wrf.getSIMULATION_START_DATE_format2();
         String JDENDS =  wrf.getSIMULATION_END_DATE_format2();
-
+        String month = wrf.getMonthString(Integer.parseInt(wrf.getMonth()));
         try (PrintWriter out = new PrintWriter(jobfile_dir+jobfile)) {
 
             String JOBFILE = "#!/bin/csh -f\n" +
@@ -55,7 +55,7 @@ public class MOZART2CAMX extends CAMxSIMULATION {
                     "# DEFINE INPUT MOZART FILES\n" +
                     "# IF MORE THAN 1 MOZART FILE IS NEEDED, ADD setenv INFILE2\n" +
                     "set NINFILE = 1\n" +
-                    "setenv INFILE1    $PATH/OUTFILE3D."+YEAR+".jan\n" +
+                    "setenv INFILE1    $PATH/OUTFILE3D."+YEAR+"."+month+"\n" +
                     "setenv MOZART_EVAL no\n" +
                      module_dir+"/src/mozart2camx_CB05_CF__GEOS5 << IEOF \n" +
                     "CAMx5,CAMx6,CMAQ   |CAMx 6\n" +

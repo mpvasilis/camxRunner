@@ -112,10 +112,10 @@ public class MET2MGN extends CAMxSIMULATION {
                     "@ jdym1  = $JDATEm1 - 2000000\n" +
                     "@ DDm1++\n" +
                     "#set start/end dates\n" +
-                    "if ($JDATE == $EPISODE_SDATE) then " +
+                    "if ($JDATE == $EPISODE_SDATE) then \n" +
                     "setenv STDATE ${jdy}01\n" +
                     "else\n" +
-                    "setenv STDATE ${jdy}00" +
+                    "setenv STDATE ${jdy}00 \n" +
                     "endif\n" +
                     "setenv ENDATE ${jdy}24\n" +
                     "setenv MM5MET N\n" +
