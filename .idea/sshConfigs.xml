@@ -4,7 +4,7 @@
     <configs>
       <sshConfig authType="PASSWORD" host="icarus-dss-models.upcom.eu" id="ee7d05ae-c90c-405f-8af3-ec5c2491d2bd" port="13930" customName="icarus-dss-models" nameFormat="CUSTOM" username="vbalafas" />
       <sshConfig authType="PASSWORD" host="83.212.17.210" id="33cbb4c0-aeb1-4af2-bce6-f6b4302af3fa" port="22" customName="Cluster" nameFormat="CUSTOM" username="vmpalafas" />
-      <sshConfig authType="PASSWORD" host="83.212.17.210" id="286eb0ca-3b69-4db8-967e-fef49a762623" port="22" customName="Cluster" nameFormat="CUSTOM" username="vmpalafas" />
+      <sshConfig authType="PASSWORD" host="83.212.17.210" id="ee778c98-6df8-452d-b325-e39b3bc52d50" port="22" customName="Cluster" nameFormat="CUSTOM" username="vmpalafas" />
     </configs>
   </component>
 </project>
