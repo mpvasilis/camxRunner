@@ -57,6 +57,12 @@ public class Main {
 
         String Baseline = args[5];
         boolean isBaseline = false;
+        if(Baseline.equals("Baseline")){
+            isBaseline = true;
+            EMISION_INV = "/mnt/data/"+runID+"/SMOKE_CAMX_FinalEmissionInventory_baseline.csv";
+            System.out.println("Baseline simulation detected...\n");
+        }
+
 
 
 
@@ -84,9 +90,6 @@ public class Main {
 
             CAMxSIMULATION camxSimulation = new CAMxSIMULATION(RUNDATE, RUNHOURS, RUNCITY, CORES, EMISION_INV, wrfoutputfile);
 
-            if(Baseline.equals("Baseline")){
-                isBaseline = true;
-            }
 
 
             WRF wrfinput = new WRF(wrfinputfile);
