@@ -12,6 +12,9 @@ public class CAMxSIMULATION {
 
     boolean DEBUG=false;
 
+    public boolean isBaseline = false;
+
+
     // CAMx grid size (default 40)
 
     public int CAMX_GRID_X=40;

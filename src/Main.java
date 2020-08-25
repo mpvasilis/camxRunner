@@ -40,9 +40,25 @@ public class Main {
         String CORES = args[3]; // 8
         String runID = getrunID(); // 20
         String EMISION_INV = "/mnt/data/"+runID+"/SMOKE_CAMX_FinalEmissionInventory.csv"; // EMISION_INV /opt/data
+        String apiEndpoint = args[4]; // http://oldrestapi.icarus2020.eu:8081
+        //String getMeteorologyFromOtherRun = args[5]; // Other runs ID
+
         String wrfoutputfile ="/mnt/data/"+runID+"/wrfout_d02"; // wrfoutput /opt/data
         String wrfinputfile = "/mnt/data/"+runID+"/wrfinput_d01"; // wrfoutput /opt/data
-        String apiEndpoint = args[4]; // http://oldrestapi.icarus2020.eu:8081
+
+       /*
+       if(args.length==6) {
+            if (Integer.parseInt(getMeteorologyFromOtherRun) > 0) {
+                wrfoutputfile = "/mnt/data/" + getMeteorologyFromOtherRun + "/wrfout_d02"; // wrfoutput /opt/data
+                wrfinputfile = "/mnt/data/" + getMeteorologyFromOtherRun + "/wrfinput_d01"; // wrfoutput /opt/data
+            }
+        }
+        */
+
+        String Baseline = args[5];
+        boolean isBaseline = false;
+
+
 
         boolean CAMxTESTCASE = false;
 
@@ -67,6 +83,11 @@ public class Main {
                     "Total CPU cores:" + CORES + "\n");
 
             CAMxSIMULATION camxSimulation = new CAMxSIMULATION(RUNDATE, RUNHOURS, RUNCITY, CORES, EMISION_INV, wrfoutputfile);
+
+            if(Baseline.equals("Baseline")){
+                isBaseline = true;
+            }
+
 
             WRF wrfinput = new WRF(wrfinputfile);
             try {
@@ -222,7 +243,7 @@ public class Main {
         if(listOfFiles.length > 0) {
             for (File file : listOfFiles) {
                 if (file.isFile() && file.getName().contains(".avrg.grd01.nc")) {
-                    getDATA(file.getAbsolutePath(), apiEndpoint, Integer.parseInt(runID), wrfoutputfile);
+                    getDATA(file.getAbsolutePath(), apiEndpoint, Integer.parseInt(runID), wrfoutputfile, isBaseline);
                     File camxfile = new File(file.getAbsolutePath());
                     File destination = new File("/mnt/data/"+runID+"/"+file.getName().replace("thess",RUNCITY));
                     try {
@@ -247,7 +268,7 @@ public class Main {
     // Reading CAMx outputs data and posts to DSS endpoint
     // ***************************************************
 
-    private static void getDATA(String camOutputFile, String apiEndpoint, int runID, String wrfoutputfile) {
+    private static void getDATA(String camOutputFile, String apiEndpoint, int runID, String wrfoutputfile, boolean isBaseline) {
 
         WRF wrf = new WRF(wrfoutputfile);
         try {
@@ -294,7 +315,13 @@ public class Main {
                         e.printStackTrace();
                     }
                     System.out.println("Post size = " + (bytes.length / 1048576) + "MB");
-                    int statuscode = jsonPost(json, apiEndpoint);
+                    int statuscode;
+                    if(isBaseline){
+                        statuscode = jsonPostBaseline(json, apiEndpoint);
+                    }
+                    else{
+                        statuscode = jsonPost(json, apiEndpoint);
+                    }
                     System.err.println(statuscode);
                     if(statuscode!=200){
                         EventBuilder eventBuilder = new EventBuilder()
@@ -393,6 +420,19 @@ public class Main {
 
     private static int jsonPost(String json, String endpoint) {
         HttpResponse response = Unirest.post(endpoint + "/externalmodels/postoutputmodelrecords")
+                .header("Content-Type", "application/json")
+                .basicAuth("admin", "password")
+                .body(json)
+                .asEmpty();
+        return response.getStatus();
+    }
+
+    // ******************************************************
+    // JSON data post to DSS endpoint for baseline results
+    // ******************************************************
+
+    private static int jsonPostBaseline(String json, String endpoint) {
+        HttpResponse response = Unirest.post(endpoint + "/externalmodels/postoutputmodelbaselinerecords")
                 .header("Content-Type", "application/json")
                 .basicAuth("admin", "password")
                 .body(json)
