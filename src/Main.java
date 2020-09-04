@@ -256,8 +256,12 @@ public class Main {
                     }
                 }
             }
-
-            taskExecutionCompleted(runID, apiEndpoint);
+            if(isBaseline){
+                taskExecutionCompleted(runID, apiEndpoint);
+            }
+            else{
+                camxCompleted(runID, apiEndpoint);
+            }
 
             System.out.println("CAMx simulation finished!");
         }
@@ -361,8 +365,13 @@ public class Main {
                     e.printStackTrace();
                 }
                 System.out.println("Post size = " + (bytes.length / 1048576) + "MB");
-                int statuscode = jsonPost(json, apiEndpoint);
-                System.err.println(statuscode);
+                int statuscode;
+                if(isBaseline){
+                    statuscode = jsonPostBaseline(json, apiEndpoint);
+                }
+                else{
+                    statuscode = jsonPost(json, apiEndpoint);
+                }                System.err.println(statuscode);
                 if(statuscode!=200){
                     EventBuilder eventBuilder = new EventBuilder()
                             .withMessage("DSS status code "+statuscode+" while posting "+ pollutant+ " at run ID "+ runID+".")
@@ -397,8 +406,13 @@ public class Main {
                     e.printStackTrace();
                 }
                 System.out.println("Post size = " + (bytes.length / 1048576) + "MB");
-                int statuscode = jsonPost(json, apiEndpoint);
-                System.err.println(statuscode);
+                int statuscode;
+                if(isBaseline){
+                    statuscode = jsonPostBaseline(json, apiEndpoint);
+                }
+                else{
+                    statuscode = jsonPost(json, apiEndpoint);
+                }                System.err.println(statuscode);
                 if(statuscode!=200){
                     EventBuilder eventBuilder = new EventBuilder()
                             .withMessage("DSS status code "+statuscode+" while posting "+ pollutant+ " at run ID "+ runID+".")
@@ -456,6 +470,25 @@ public class Main {
                 .asString();
         return response.getStatus();
     }
+
+    private static int camxCompleted(String runID, String endpoint) {
+        HttpResponse response = Unirest.get(endpoint + "/externalmodels/camxcompleted/")
+                .queryString("taskExecutionId", runID)
+                .queryString("file", "0")
+                .basicAuth("admin", "password")
+                .asString();
+        return response.getStatus();
+    }
+
+    private static int camxCompletedBaseline(String runID, String endpoint) {
+        HttpResponse response = Unirest.get(endpoint + "/externalmodels/camxcompleted_baseline/")
+                .queryString("taskExecutionId", runID)
+                .queryString("file", "0")
+                .basicAuth("admin", "password")
+                .asString();
+        return response.getStatus();
+    }
+
 
     // ************************************************
     // Task execution failed post to DSS endpoint
