@@ -11,4 +11,4 @@ RUN DEBIAN_FRONTEND=noninteractive etc/opt/install-camx
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -y openssh-server nano python3 openjdk-11-jdk nco
 RUN DEBIAN_FRONTEND=noninteractive etc/opt/build-preprocessors.sh
 ENTRYPOINT ["java", "/opt/bin/camxRunner.jar"]
-CMD ["20150101", "48", "Thessaloniki","8","/opt/data/wrfoutput-Thesaloniki","/opt/data/emiss-inv-Thessaloniki","http://oldrestapi.icarus2020.eu:8081","1"]
+CMD ["20150101", "48", "Thessaloniki","8","/opt/data/wrfoutput-Thesaloniki","/opt/data/emiss-inv-Thessaloniki","http://vasilis.pw","1"]
